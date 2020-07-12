@@ -731,7 +731,7 @@ function trackError(message, file, line) {
 
 window.onerror = function(message, file, line) {
     // trackError(message, line, file);
-    ga('send', 'event', 'JavaScript Error', message, file + ": Line " + line, { 'nonInteraction': 1 });
+    // ga('send', 'event', 'JavaScript Error', message, file + ": Line " + line, { 'nonInteraction': 1 });
 }
 
 //+ Jonas Raoni Soares Silva

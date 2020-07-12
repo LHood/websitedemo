@@ -111,49 +111,51 @@
 //   };
 // })(jQuery);
 
-$("#generate-pdf").on("click", function () {
-  // function generatePdf() {
-  var doc = new jsPDF();
-  html2canvas(document.querySelector("#canvas")).then(function (canvas) {
-    doc.text(20, 20, "PDF Generated for Spectrum");
-    doc.line(20, 25, 60, 25);
+$("#generate-pdf").on("click", function() {
+    // function generatePdf() {
+    var doc = new jsPDF();
+    html2canvas(document.querySelector("#canvas")).then(function(canvas) {
+        doc.text(20, 20, "PDF Generated for Spectrum");
+        doc.line(20, 25, 60, 25);
 
-    var imgData = canvas.toDataURL("image/png");
+        var imgData = canvas.toDataURL("image/png");
 
-    var pageHeight = 295;
-    var imgWidth = (canvas.width * 50) / 210 + 4;
-    var imgHeight = (canvas.height * imgWidth) / canvas.width;
-    var heightLeft = imgHeight;
-    var position = 30;
-    var left = 12;
+        var pageHeight = 295;
+        var imgWidth = (canvas.width * 50) / 210 + 4;
+        var imgHeight = (canvas.height * imgWidth) / canvas.width;
+        var heightLeft = imgHeight;
+        var position = 30;
+        var left = 12;
 
-    doc.addImage(imgData, "PNG", left, position, imgWidth, imgHeight);
-    heightLeft -= pageHeight;
+        doc.addImage(imgData, "PNG", left, position, imgWidth, imgHeight);
+        heightLeft -= pageHeight;
 
-    while (heightLeft >= 0) {
-      position = heightLeft - imgHeight;
-      doc.addPage();
-      doc.addImage(imgData, "PNG", 0, position, imgWidth, imgHeight);
-      heightLeft -= pageHeight;
-    }
-    doc.autoTable({ html: "#my-table" });
-    doc.autoTable({
-      styles: { halign: "center", valign: "bottom" },
+        while (heightLeft >= 0) {
+            position = heightLeft - imgHeight;
+            doc.addPage();
+            doc.addImage(imgData, "PNG", 0, position, imgWidth, imgHeight);
+            heightLeft -= pageHeight;
+        }
+        doc.autoTable({ html: "#my-table" });
+        doc.autoTable({
+            styles: { halign: "center", valign: "bottom" },
 
-      head: [["Name", "sample rate(kHz)", "Bit Rate(kbps)", "LUFS"]],
-      startY: imgHeight + position + 10,
-      // tableLineWidth: 200,
-      body: [
-        [
-          document.getElementById("name").textContent,
-          document.getElementById("sample-rate").textContent,
-          document.getElementById("bit-rate").textContent,
-          document.getElementById("lufs").textContent,
-        ],
-        // ...
-      ],
+            head: [
+                ["Name", "sample rate(kHz)", "Bit Rate(kbps)", "LUFS"]
+            ],
+            startY: imgHeight + position + 10,
+            // tableLineWidth: 200,
+            body: [
+                [
+                    document.getElementById("name").textContent,
+                    document.getElementById("sample-rate").textContent,
+                    document.getElementById("bit-rate").textContent,
+                    document.getElementById("lufs").textContent,
+                ],
+                // ...
+            ],
+        });
+        doc.output("dataurlnewwindow");
+        doc.save(Date.now() + ".pdf");
     });
-    doc.output("dataurlnewwindow");
-    doc.save(Date.now() + ".pdf");
-  });
 });
