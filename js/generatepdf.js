@@ -115,7 +115,7 @@ $("#generate-pdf").on("click", function() {
     // function generatePdf() {
     var doc = new jsPDF();
     html2canvas(document.querySelector("#canvas")).then(function(canvas) {
-        doc.text(20, 20, "Loudness Analyzer Report by MRLHOOD.COM");
+        doc.text(20, 20, "Audio Report by MRLHOOD.COM");
         doc.line(20, 25, 60, 25);
 
         var imgData = canvas.toDataURL("image/png");
